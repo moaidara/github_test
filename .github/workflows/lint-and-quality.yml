@@ -1,0 +1,28 @@
+name: Lint and Quality
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install linters
+        run: |
+          pip install flake8 black
+
+      - name: Run Flake8
+        run: flake8 src/ tests/
+
+      - name: Check formatting with Black
+        run: black --check .
